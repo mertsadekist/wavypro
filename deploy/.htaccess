@@ -1,0 +1,43 @@
+# ============================================================
+#  ضع هذا الملف داخل document root للدومين:
+#  /home/neka0367/wavyprogroup.com/.htaccess
+#  (وليس داخل مجلد التطبيق wavypro)
+# ============================================================
+
+# --- إعدادات Phusion Passenger لتشغيل تطبيق Node ---
+PassengerAppRoot "/home/neka0367/wavypro"
+PassengerBaseURI "/"
+PassengerNodejs "/home/neka0367/nodevenv/wavypro/20/bin/node"
+PassengerAppType node
+PassengerStartupFile app.mjs
+PassengerAppEnv production
+PassengerEnabled on
+
+# --- اخدم الملفات الثابتة الموجودة فعليًا مباشرةً عبر Apache ---
+# أي طلب يطابق ملفًا موجودًا في document root (مثل /assets/x.js)
+# يُخدَم مباشرةً ولا يُمرَّر إلى تطبيق Node، مما يمنع أخطاء 500.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^ - [L]
+</IfModule>
+
+# --- منع عرض فهرس المجلدات ---
+Options -Indexes
+
+# --- ضغط الاستجابات النصية (اختياري، يحسّن الأداء) ---
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json image/svg+xml
+</IfModule>
+
+# --- تخزين مؤقت طويل للأصول ذات البصمة (hash) ---
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 year"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/jpeg "access plus 1 month"
+  ExpiresByType image/svg+xml "access plus 1 month"
+  ExpiresByType image/webp "access plus 1 month"
+</IfModule>

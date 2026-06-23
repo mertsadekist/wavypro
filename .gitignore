@@ -1,0 +1,48 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+
+# Local deployment / build artifacts (not part of the source repo)
+dist-deploy/
+New-Image/
+
+# Source-only junk from the original export (not used by the website)
+public/uploads/*.docx
+public/uploads/*.md
+public/uploads/_docx_*.txt
+public/uploads/screencapture-*
+public/uploads/*.zip
+
+# Environment variables (contains secrets like SERVICE_ROLE_KEY)
+.env
+.env.*
+!.env.example
+.output
+.vinxi
+.tanstack/**
+.nitro
+*.local
+
+# Wrangler / Cloudflare
+.wrangler/
+.dev.vars
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
