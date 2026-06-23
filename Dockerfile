@@ -21,9 +21,13 @@ ENV VITE_SUPABASE_URL=$VITE_SUPABASE_URL \
     VITE_SUPABASE_PUBLISHABLE_KEY=$VITE_SUPABASE_PUBLISHABLE_KEY \
     VITE_SUPABASE_PROJECT_ID=$VITE_SUPABASE_PROJECT_ID
 
-# Install deps with a reproducible lockfile
+# Install deps with a reproducible lockfile.
+# --include=dev forces devDependencies to install even when the platform sets
+# NODE_ENV=production at build time (Coolify does). vite and
+# @lovable.dev/vite-tanstack-config are dev deps required by `vite build`.
+# `npm run build` itself still runs in production mode.
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm ci --include=dev
 
 # Build the app -> produces ./.output (self-contained Nitro server)
 COPY . .
