@@ -46,6 +46,11 @@ COPY --from=build /app/.output ./.output
 
 EXPOSE 3000
 
+# Health check so Coolify/Docker can confirm the app is up before routing traffic.
+# Uses busybox wget (bundled in alpine). Adjust the port if you change PORT.
+HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
+  CMD wget -q -O /dev/null "http://127.0.0.1:${PORT}/" || exit 1
+
 # Run from inside .output so process.cwd()/public/content.json resolves correctly.
 WORKDIR /app/.output
 CMD ["node", "server/index.mjs"]
